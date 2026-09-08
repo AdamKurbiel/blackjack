@@ -1,13 +1,20 @@
-class karta{
-    constructor(typ){
-        this.typ = typ;
-        this.znak = '10';
+const KOLORY = ['kier', 'karo', 'trefl', 'pik'];
+const FIGURY = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
+
+
+function stworzTalie(liczbaTalii){
+    var talia = [];
+
+    for (let i = 0; i < liczbaTalii; i++){
+        for (kolor of KOLORY){
+            for (figura of FIGURY){
+                talia.push({kolor, figura});
+            }
+        }
     }
+
+    return talia;
 }
 
-function wartoscKarty(karta){
-    if (parseInt(karta.znak)) return parseInt(karta.znak);
 
-    if (karta.znak == 'A') return 11; //AS (TODO obsługa 1 lub 11)
-    return 10; //J,Q,K
-}
+console.log(stworzTalie(1));
