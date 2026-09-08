@@ -46,7 +46,13 @@ var gracz = [];
 var krupier = [];
 
 gracz.push(pociagnij(talia));
+
 krupier.push(pociagnij(talia));
 
 wyswietlKarty(gracz,DIV_GRACZ);
-wyswietlKarty(krupier,DIV_KRUPIER);
+
+DIV_KRUPIER.inner_html = "";
+for (item of krupier){
+    DIV_KRUPIER.innerHTML += `<img src="karty/${item['figura']}${item['kolor']}.svg"> \n`;
+}
+DIV_KRUPIER.innerHTML += `<img class='blur' src="karty/${item['figura']}${item['kolor']}.svg"> \n`;
