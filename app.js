@@ -1,6 +1,8 @@
 const KOLORY = ['kier', 'karo', 'trefl', 'pik'];
 const FIGURY = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
-const KOMUNIKAT = document.getElementById("komunikat");
+const DIV_GRACZ = document.getElementById("gracz");
+const DIV_KRUPIER = document.getElementById("krupier");
+
 
 function tasuj(talia){
     let i = talia.length;
@@ -11,6 +13,12 @@ function tasuj(talia){
         [talia[i], talia[losowy_i]] = [
         talia[losowy_i], talia[i]];
   }
+}
+
+function pociagnij(talia){
+    var karta = talia[talia.length-1];
+    talia.pop();
+    return karta;
 }
 
 function stworzTalie(liczbaTalii){
@@ -26,6 +34,19 @@ function stworzTalie(liczbaTalii){
     return talia;
 }
 
+function wyswietlKarty(reka,div){
+    div.innerHTML = "";
+    for (item of reka){
+        div.innerHTML += `<img src="karty/${item['figura']}${item['kolor']}.svg"> \n`;
+    }
+}
+
 var talia = stworzTalie(1);
 var gracz = [];
 var krupier = [];
+
+gracz.push(pociagnij(talia));
+krupier.push(pociagnij(talia));
+
+wyswietlKarty(gracz,DIV_GRACZ);
+wyswietlKarty(krupier,DIV_KRUPIER);
