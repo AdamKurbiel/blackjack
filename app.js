@@ -55,4 +55,4 @@ DIV_KRUPIER.inner_html = "";
 for (item of krupier){
     DIV_KRUPIER.innerHTML += `<img src="karty/${item['figura']}${item['kolor']}.svg"> \n`;
 }
-DIV_KRUPIER.innerHTML += `<img class='blur' src="karty/${item['figura']}${item['kolor']}.svg"> \n`;
+DIV_KRUPIER.innerHTML += `<img class='nieznana' src="karty/2karo.svg"> \n`; //karta niewidoczna (nie ma znaczenia)
