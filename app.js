@@ -102,13 +102,13 @@ function waliduj(){
         return;
     }
 
-    if (krupier.length < 2) return;
-
     if (wartoscKart > 21){
         toggleWybory();
         komunikat.innerHTML = "Krupier wygrywa!";
         return;
     }
+
+    if (krupier.length < 2) return;
 
     if (wartoscKartKrupiera > 21){
         toggleWybory();
