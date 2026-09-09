@@ -42,20 +42,26 @@ function wyswietlKarty(reka,div){
 }
 
 function obliczWartoscKart(reka){
-    var wartosc = 0;
-    
-    for (item of reka){
-        let znak = item['figura'];
-        if (parseInt(znak)){
-            wartosc += parseInt(znak);
-        }else{
-            //J/Q/K/A
-            if (znak == 'A'){
-                wartosc += 11; //todo 1 albo 11
-            }else{
-                wartosc += 10;
-            }
+    let wartosc = 0;
+    let asy = 0;
+
+    for (const item of reka){
+        const znak = item['figura'];
+        const liczba = parseInt(znak, 10);
+
+        if (!Number.isNaN(liczba)){
+            wartosc += liczba;
+        } else if (znak === 'A'){
+            wartosc += 11;
+            asy++;
+        } else {
+            wartosc += 10;
         }
+    }
+
+    while (wartosc > 21 && asy > 0) {
+        wartosc -= 10;
+        asy--;
     }
 
     return wartosc;
@@ -82,13 +88,12 @@ function waliduj(){
     let wartoscKart = obliczWartoscKart(gracz);
     let wartoscKartKrupiera = obliczWartoscKart(krupier);
 
-
-    if (wartoscKart == 21){
+    if (wartoscKart === 21){
         toggleWybory();
         krupierDobierz();
         wartoscKartKrupiera = obliczWartoscKart(krupier);
 
-        if (wartoscKartKrupiera == 21){
+        if (wartoscKartKrupiera === 21){
             komunikat.innerHTML = "Remis!";
             return;
         }
@@ -96,6 +101,7 @@ function waliduj(){
         komunikat.innerHTML = "Gracz wygrywa!";
         return;
     }
+
     if (krupier.length < 2) return;
 
     if (wartoscKart > 21){
@@ -103,24 +109,64 @@ function waliduj(){
         komunikat.innerHTML = "Krupier wygrywa!";
         return;
     }
+
+    if (wartoscKartKrupiera > 21){
+        toggleWybory();
+        komunikat.innerHTML = "Gracz wygrywa!";
+        return;
+    }
+
     if (wartoscKartKrupiera > wartoscKart){
         toggleWybory();
-        if (wartoscKartKrupiera <= 21){
         komunikat.innerHTML = "Krupier wygrywa!";
-        }else{
-            komunikat.innerHTML = "Gracz wygrywa!";
-        }
         return;
-        
     }
-    if (wartoscKartKrupiera == wartoscKart){
+
+    if (wartoscKartKrupiera === wartoscKart){
         toggleWybory();
         komunikat.innerHTML = "Remis!";
         return;
     }
-    if (wartoscKartKrupiera <= 16 && wartoscKartKrupiera < wartoscKart){
+
+    if (wartoscKartKrupiera <= 16){
         toggleWybory();
-        komunikat.innerHTML = "Gracz wygrywa!";
+        krupier.push(pociagnij(talia));
+        wyswietlKarty(krupier, DIV_KRUPIER);
+
+        wartoscKartKrupiera = obliczWartoscKart(krupier);
+        wartoscKart = obliczWartoscKart(gracz);
+
+        if (wartoscKartKrupiera > 21){
+            komunikat.innerHTML = "Gracz wygrywa!";
+        } else if (wartoscKartKrupiera === wartoscKart){
+            komunikat.innerHTML = "Remis!";
+        } else if (wartoscKartKrupiera < wartoscKart){
+            komunikat.innerHTML = "Gracz wygrywa!";
+        } else {
+            komunikat.innerHTML = "Krupier wygrywa!";
+        }
+        return;
+    }
+
+    if (wartoscKartKrupiera >= 17){
+        while (obliczWartoscKart(krupier) < obliczWartoscKart(gracz)) {
+            krupier.push(pociagnij(talia));
+            wyswietlKarty(krupier, DIV_KRUPIER);
+        }
+
+        toggleWybory();
+        const wynikKrupiera = obliczWartoscKart(krupier);
+        const wynikGracza = obliczWartoscKart(gracz);
+
+        if (wynikKrupiera > 21){
+            komunikat.innerHTML = "Gracz wygrywa!";
+        } else if (wynikKrupiera === wynikGracza){
+            komunikat.innerHTML = "Remis!";
+        } else if (wynikKrupiera < wynikGracza){
+            komunikat.innerHTML = "Gracz wygrywa!";
+        } else {
+            komunikat.innerHTML = "Krupier wygrywa!";
+        }
         return;
     }
 }
