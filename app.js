@@ -183,6 +183,7 @@ function dobierz(){
     gracz.push(pociagnij(talia));
     wyswietlKarty(gracz, DIV_GRACZ);
 
+    wyswietlWartosci();
     waliduj();
 }
 
@@ -202,9 +203,20 @@ function krupierDobierz(){
 
 }
 
+function wyswietlWartosci(){
+    let grWartosc = obliczWartoscKart(gracz);
+    let krWartosc = obliczWartoscKart(krupier);
+
+    komunikat.innerHTML = `Suma punktów:<br>Ty: ${grWartosc}, Krupier: ${krWartosc}`;
+
+}
+
 function pas(){
     krupier.push(pociagnij(talia));
     wyswietlKarty(krupier, DIV_KRUPIER);
 
+    wyswietlWartosci();
     waliduj();
 }
+
+wyswietlWartosci();
