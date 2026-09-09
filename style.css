@@ -3,6 +3,12 @@
     justify-content: center;
 }
 
+.wybory{
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
+
 .reka > img{
     min-width: 20px;
     max-width: 128px;
