@@ -78,16 +78,89 @@ for (item of krupier){
 DIV_KRUPIER.innerHTML += `<img class='nieznana' src="karty/2karo.svg"> \n`; //karta niewidoczna (nie ma znaczenia)
 
 
+function waliduj(){
+    let wartoscKart = obliczWartoscKart(gracz);
+    let wartoscKartKrupiera = obliczWartoscKart(krupier);
+
+
+    if (wartoscKart == 21){
+        toggleWybory();
+        krupierDobierz();
+        wartoscKartKrupiera = obliczWartoscKart(krupier);
+
+        if (wartoscKartKrupiera == 21){
+            komunikat.innerHTML = "Remis!";
+            return;
+        }
+
+        komunikat.innerHTML = "Gracz wygrywa!";
+        return;
+    }
+    if (krupier.length < 2) return;
+
+    if (wartoscKart > 21){
+        toggleWybory();
+        komunikat.innerHTML = "Krupier wygrywa!";
+        return;
+    }
+    if (wartoscKartKrupiera > wartoscKart){
+        toggleWybory();
+        if (wartoscKartKrupiera <= 21){
+        komunikat.innerHTML = "Krupier wygrywa!";
+        }else{
+            komunikat.innerHTML = "Gracz wygrywa!";
+        }
+        return;
+        
+    }
+    if (wartoscKartKrupiera == wartoscKart){
+        toggleWybory();
+        komunikat.innerHTML = "Remis!";
+        return;
+    }
+    if (wartoscKartKrupiera <= 16 && wartoscKartKrupiera < wartoscKart){
+        toggleWybory();
+        komunikat.innerHTML = "Gracz wygrywa!";
+        return;
+    }
+}
+
+function toggleWybory(){
+    if (document.getElementById('wybory').getAttribute("class") == "wybory"){
+        document.getElementById("wybory").setAttribute("class","wylaczone");
+    }else{
+        document.getElementById("wybory").setAttribute("class","wybory");
+    }
+}
+
 function dobierz(){
     gracz.push(pociagnij(talia));
     wyswietlKarty(gracz, DIV_GRACZ);
-    let wartoscKart = obliczWartoscKart(gracz);
-    DIV_GRACZ.innerHTML += wartoscKart;
+
+    waliduj();
+}
+
+function krupierDobierz(){
+    krupier.push(pociagnij(talia));
+    wyswietlKarty(krupier, DIV_KRUPIER);
+    let wartoscKartKrupiera = obliczWartoscKart(krupier);
+    if (wartoscKartKrupiera <= 16){
+        krupier.push(pociagnij(talia));
+        wyswietlKarty(krupier, DIV_KRUPIER);
+    }else{
+        while(obliczWartoscKart(krupier) < obliczWartoscKart(gracz)){
+            krupier.push(pociagnij(talia));
+            wyswietlKarty(krupier, DIV_KRUPIER);
+        }
+    }
+
 }
 
 function pas(){
+    toggleWybory();
+
     krupier.push(pociagnij(talia));
     wyswietlKarty(krupier, DIV_KRUPIER);
-    let wartoscKart = obliczWartoscKart(krupier);
-    DIV_KRUPIER.innerHTML += wartoscKart;
+
+    waliduj();
 }
