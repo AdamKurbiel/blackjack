@@ -41,6 +41,26 @@ function wyswietlKarty(reka,div){
     }
 }
 
+function obliczWartoscKart(reka){
+    var wartosc = 0;
+    
+    for (item of reka){
+        let znak = item['figura'];
+        if (parseInt(znak)){
+            wartosc += parseInt(znak);
+        }else{
+            //J/Q/K/A
+            if (znak == 'A'){
+                wartosc += 11; //todo 1 albo 11
+            }else{
+                wartosc += 10;
+            }
+        }
+    }
+
+    return wartosc;
+}
+
 var talia = stworzTalie(1);
 var gracz = [];
 var krupier = [];
@@ -61,4 +81,13 @@ DIV_KRUPIER.innerHTML += `<img class='nieznana' src="karty/2karo.svg"> \n`; //ka
 function dobierz(){
     gracz.push(pociagnij(talia));
     wyswietlKarty(gracz, DIV_GRACZ);
+    let wartoscKart = obliczWartoscKart(gracz);
+    DIV_GRACZ.innerHTML += wartoscKart;
+}
+
+function pas(){
+    krupier.push(pociagnij(talia));
+    wyswietlKarty(krupier, DIV_KRUPIER);
+    let wartoscKart = obliczWartoscKart(krupier);
+    DIV_KRUPIER.innerHTML += wartoscKart;
 }
