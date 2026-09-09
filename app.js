@@ -203,8 +203,6 @@ function krupierDobierz(){
 }
 
 function pas(){
-    toggleWybory();
-
     krupier.push(pociagnij(talia));
     wyswietlKarty(krupier, DIV_KRUPIER);
 
